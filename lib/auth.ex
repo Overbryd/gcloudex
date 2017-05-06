@@ -20,62 +20,26 @@ defmodule GCloudex.Auth do
 
   # Compute Engine scopes
   @compute_read_only          "https://www.googleapis.com/auth/compute.readonly"
-  @compute                    "https://www.googleapis.com/auth/compute"  
+  @compute                    "https://www.googleapis.com/auth/compute"
 
   @doc """
   Retrieves an authentication token for the Google Cloud Storage service.
   """
   @spec get_token_storage(atom) :: binary
   def get_token_storage(type) do
+    scope =
+      case type do
+        :read_only -> @storage_scope_read_only
+        :read_write -> @storage_scope_read_write
+        :full_control -> @storage_scope_full_control
+        :sql_admin -> @sql_scope_admin
+        :cs_read_only -> @cloud_scope_cs_read_only
+        :cs -> @cloud_scope_cs
+        :compute_read_only -> @compute_read_only
+        :compute -> @compute
+      end
 
-    # Refactor this case do to receive the tuple and then return the field
-    case type do
-      :read_only ->
-        {:ok, get_token_response} =
-          GoogleAuth.for_scope @storage_scope_read_only
-
-        get_token_response |> Map.get(:token)
-
-      :read_write ->
-        {:ok, get_token_response} =
-          GoogleAuth.for_scope @storage_scope_read_write
-
-        get_token_response |> Map.get(:token)
-
-      :full_control ->
-        {:ok, get_token_response} =
-          GoogleAuth.for_scope @storage_scope_full_control
-
-        get_token_response |> Map.get(:token)
-
-      :sql_admin ->
-        {:ok, get_token_response} = 
-          GoogleAuth.for_scope @sql_scope_admin
-
-        get_token_response |> Map.get(:token)
-
-      :cs_read_only ->
-        {:ok, get_token_response} =
-          GoogleAuth.for_scope @cloud_scope_cs_read_only
-
-        get_token_response |> Map.get(:token)
-
-      :cs ->
-        {:ok, get_token_response} = GoogleAuth.for_scope @cloud_scope_cs
-
-        get_token_response |> Map.get(:token)
-
-      :compute_read_only ->
-        {:ok, get_token_response} = 
-          GoogleAuth.for_scope @compute_read_only
-
-        get_token_response |> Map.get(:token)
-
-      :compute ->
-        {:ok, get_token_response} = 
-          GoogleAuth.for_scope @compute
-
-        get_token_response |> Map.get(:token)
-    end
+    {:ok, get_token_response} = GoogleAuth.for_scope scope
+    Map.get(get_token_response, :token)
   end
 end

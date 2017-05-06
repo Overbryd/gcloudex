@@ -1191,7 +1191,7 @@ defmodule ComputeEngineTest do
     assert expected == API.reset_instance zone, instance, fields
   end  
 
-  test "add_access_config (no fields with nat)" do 
+  test "add_access_config (no fields with nat)" do
     zone      = "zone"
     instance  = "instance"
     interface = "interface"
@@ -1251,7 +1251,7 @@ defmodule ComputeEngineTest do
     assert expected == API.add_access_config zone, instance, interface, name, nat, fields
   end      
 
-  test "add_access_config (no fields no nat)" do 
+  test "add_access_config (no fields no nat) 2" do
     zone      = "zone"
     instance  = "instance"
     interface = "interface"
@@ -1482,7 +1482,7 @@ defmodule ComputeEngineTest do
     assert expected == API.set_metadata zone, instance, fp, items
   end     
 
-  test "set_metadata (no fields)" do 
+  test "set_metadata (no fields) 2" do 
     zone      = "zone"
     instance  = "instance"
     fp        = "fingerprint"
