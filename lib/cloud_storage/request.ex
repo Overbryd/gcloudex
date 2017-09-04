@@ -7,11 +7,10 @@ defmodule GCloudex.CloudStorage.Request do
   Offers HTTP requests to be used in by the Google Cloud Storage wrapper.
   """
 
-  defmacro __using__(_opts) do 
+  defmacro __using__(_opts) do
     quote do
 
       @endpoint "storage.googleapis.com"
-      @project_id GCloudex.get_project_id
 
       @doc"""
       Sends an HTTP request according to the Service resource in the Google Cloud
@@ -24,7 +23,7 @@ defmodule GCloudex.CloudStorage.Request do
           @endpoint,
           "",
           [
-            {"x-goog-project-id", @project_id},
+            {"x-goog-project-id", project_id()},
             {"Authorization", "Bearer #{Auth.get_token_storage(:full_control)}"}
           ],
           []
@@ -62,11 +61,13 @@ defmodule GCloudex.CloudStorage.Request do
       end
 
       defoverridable [
-        request_service: 0, 
+        request_service: 0,
         request: 3,
-        request: 4, 
+        request: 4,
         request_query: 5
       ]
+
+      defp project_id, do: GCloudex.get_project_id()
     end
   end
 end
