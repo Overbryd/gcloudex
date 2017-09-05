@@ -18,7 +18,7 @@ defmodule GCloudex.CloudStorage.Impl do
       """
       @spec list_buckets() :: HTTPResponse.t
       def list_buckets do
-        request_service
+        request_service()
       end
 
       #####################
