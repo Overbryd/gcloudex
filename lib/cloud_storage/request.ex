@@ -10,7 +10,7 @@ defmodule GCloudex.CloudStorage.Request do
   defmacro __using__(_opts) do 
     quote do
 
-      @endpoint "https://www.googleapis.com/storage/v1/b/"
+      @endpoint "storage.googleapis.com"
       @project_id GCloudex.get_project_id
 
       @doc"""
@@ -38,7 +38,7 @@ defmodule GCloudex.CloudStorage.Request do
       def request(verb, bucket, headers \\ [], body \\ "") do
         HTTP.request(
           verb,
-          @endpoint <> bucket <> "/o",
+          bucket <> "." <> @endpoint,
           body,
           headers ++ [{"Authorization",
                        "Bearer #{Auth.get_token_storage(:full_control)}"}],
@@ -51,11 +51,9 @@ defmodule GCloudex.CloudStorage.Request do
       """
       @spec request_query(atom, binary, list(tuple), binary, binary) :: HTTPResponse.t
       def request_query(verb, bucket, headers \\ [], body \\ "", parameters) do
-        parameters = URI.encode_www_form(parameters)
         HTTP.request(
           verb,
-          # bucket <> "." <> @endpoint <> "/" <> parameters,
-          @endpoint <> bucket <> "/o/" <> parameters,
+          bucket <> "." <> @endpoint <> "/" <> parameters,
           body,
           headers ++ [{"Authorization",
                        "Bearer #{Auth.get_token_storage(:full_control)}"}],
