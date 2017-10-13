@@ -50,7 +50,7 @@ defmodule GCloudex.CloudStorage.Request do
       Sends an HTTP request with the specified query parameters.
       """
       @spec request_query(atom, binary, list(tuple), binary, binary) :: HTTPResponse.t
-      def request_query(verb, bucket, headers \\ [], body \\ "", parameters) do
+      def request_query(verb, bucket, headers \\ [timeout: 50_000, recv_timeout: 50_000], body \\ "", parameters) do
         parameters = URI.encode_www_form(parameters)
         HTTP.request(
           verb,
