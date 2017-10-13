@@ -57,7 +57,7 @@ defmodule GCloudex.CloudStorage.Request do
           body,
           headers ++ [{"Authorization",
                        "Bearer #{Auth.get_token_storage(:full_control)}"}],
-          []
+          [timeout: 50_000, recv_timeout: 50_000]
         )
       end
 
