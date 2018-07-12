@@ -3,7 +3,6 @@ defmodule Test.Dummy.CloudSpeech do
   use GCloudex.CloudSpeech.Impl, :cloud_speech
 
   @endpoint "speech.googleapis.com"
-  @project_id GCloudex.get_project_id
 
   def request(verb, path, body, headers \\ []) do
     %{
@@ -14,7 +13,7 @@ defmodule Test.Dummy.CloudSpeech do
         headers ++
         [
           {"Authorization", "Bearer Dummy Token"},
-          {"x-goog-project-id", @project_id},
+          {"x-goog-project-id", GCloudex.get_project_id()},
         ],
       opts: []
     }
@@ -26,7 +25,7 @@ defmodule CloudSpeechTest do
   alias Test.Dummy.CloudSpeech, as: API
 
   @endpoint "speech.googleapis.com"
-  @project_id GCloudex.get_project_id
+  GCloudex.get_project_id() GCloudex.get_project_id
 
   #########################
   ### POST Speech Tests ###
@@ -73,7 +72,7 @@ defmodule CloudSpeechTest do
       headers:
         headers ++
         [{"Authorization", "Bearer Dummy Token"},
-         {"x-goog-project-id", @project_id}],
+         {"x-goog-project-id", GCloudex.get_project_id()}],
       body: body,
       opts: []
     }
