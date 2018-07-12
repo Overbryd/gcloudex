@@ -11,7 +11,6 @@ defmodule GCloudex.CloudSpeech.Request do
     quote do
 
       @endpoint "speech.googleapis.com"
-      @project  GCloudex.get_project_id
 
       @doc"""
       Sends an HTTP request without any query parameters.
@@ -23,7 +22,7 @@ defmodule GCloudex.CloudSpeech.Request do
           "https://" <> Path.join(@endpoint, path),
           body,
           headers ++ [{"Authorization", "Bearer #{Auth.get_token_storage(:cs)}"},
-                      {"x-goog-project-id", @project}],
+                      {"x-goog-project-id", GCloudex.get_project_id()}],
           [timeout: 50_000, recv_timeout: 50_000]
         )
       end

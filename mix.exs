@@ -44,7 +44,7 @@ defmodule GCloudex.Mixfile do
     ]
   end
 
-  defp package do 
+  defp package do
     [
      maintainers: ["Sasha Fonseca"],
      licenses: ["Apache 2.0"],
