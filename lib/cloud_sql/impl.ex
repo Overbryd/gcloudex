@@ -293,6 +293,25 @@ defmodule GCloudex.CloudSQL.Impl do
 
       @doc """
       Updates a resource containing information about a 'database' inside a
+      Cloud SQL 'instance' using patch semantics. The 'db_resource' must follow
+      the description of Database Resources in:
+        https://cloud.google.com/sql/docs/admin-api/v1beta4/databases#resource
+      """
+      @spec patch_instance(instance :: binary, instance_resource :: Map.t) :: HTTPResponse.t
+      def patch_instance(instance, instance_resource) do
+        body = instance_resource |> Poison.encode!
+
+        request_query(
+          :patch,
+          instance_ep(),
+          [{"Content-Type", "application/json"}],
+          body,
+          instance
+        )
+      end
+
+      @doc """
+      Updates a resource containing information about a 'database' inside a
       Cloud SQL 'instance'. The 'update_map' must be a Map.
       """
       @spec update_database(instance :: binary, database :: binary, db_resource :: Map.t) :: HTTPResponse.t
